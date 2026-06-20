@@ -2,30 +2,6 @@
 
 Community hardware/software notes for the Broadcom Stingray PS225 SmartNIC / DPU platform.
 
-Repository target:
-
-```text
-https://github.com/AudiNV/Broadcom-Stingray-PS225
-```
-
-## Current Hardware
-
-- 2x PS225-H16 cards
-- 2x PS225-H08 cards
-- 1x official Broadcom USB-to-3.5mm TRRS serial console cable
-- Broadcom PS225 / BCM5880X documentation archive
-
-## Inventory Summary
-
-| Card | Assembly Number | Model | Revision | Expected Memory | Status |
-|---|---|---|---|---:|---|
-| Card 01 | BCM958802A8046C | PS225-H16 | Rev 17 | 16GB | Untested |
-| Card 02 | BCM958802A8046C | PS225-H16 | Rev 15 | 16GB | Untested |
-| Card 03 | BCM958802A8028E | PS225-H08 | Rev E | 8GB ECC estimated | Untested |
-| Card 04 | BCM958802A8028C | PS225-H08 | Rev C | 8GB | Untested |
-
-See [`hardware/inventory.md`](hardware/inventory.md) for detailed card-by-card information.
-
 ## Key Platform Features
 
 - Broadcom Stingray BCM5880X / BCM58802H SoC
@@ -361,6 +337,24 @@ All trademarks belong to their respective owners.
 # Contributors
 
 Contributions, documentation, photographs, firmware analysis, and test results are welcome.
+
+## Current Hardware
+
+- 2x PS225-H16 cards
+- 2x PS225-H08 cards
+- 1x official Broadcom USB-to-3.5mm TRRS serial console cable
+- Broadcom PS225 / BCM5880X documentation archive
+
+## Inventory Summary
+
+| Card | Assembly Number | Model | Revision | Expected Memory | Status |
+|---|---|---|---|---:|---|
+| Card 01 | BCM958802A8046C | PS225-H16 | Rev 17 | 16GB | Untested |
+| Card 02 | BCM958802A8046C | PS225-H16 | Rev 15 | 16GB | Untested |
+| Card 03 | BCM958802A8028E | PS225-H08 | Rev E | 8GB ECC estimated | Untested |
+| Card 04 | BCM958802A8028C | PS225-H08 | Rev C | 8GB | Untested |
+
+See [`hardware/inventory.md`](hardware/inventory.md) for detailed card-by-card information.
 
 If you have a PS225, BCM58802, BCM58804, or other Stingray-based platform, please open an issue and share your findings.
 
