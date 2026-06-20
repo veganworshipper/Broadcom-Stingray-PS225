@@ -24,7 +24,7 @@ sed -i s/linux-aarch64/linux-aarch64-stingray/g PKGBUILD
 sed -i '/_package-chromebook/,+30d' PKGBUILD
 sed -i 's/ "${pkgbase}-chromebook"//' PKGBUILD
 makepkg -o
-cp /wherever/you/put/the/new/config src/.config
+cp /wherever/you/put/the/new/config src/config
 updpkgsums
 makepkg
 ```
@@ -46,10 +46,10 @@ To boot into ALARM, interrupt the bootloader at the countdown, select the new ke
 ```
 select kernel 2
 select dtb 2
-select rootfs-ordinal 5`
+select rootfs-ordinal 5
 startup
 ```
 
 If you build a newer kernel later you must remember to copy the kernel image to the EFI partition and replace `Image.2`.
 
-After the kernel messages you should get an ALARM login prompt on the serial console.
+After the kernel messages you should get an ALARM login prompt on the serial console. If it boots successfully the bootloader will remember your choice as default for the next boot.
