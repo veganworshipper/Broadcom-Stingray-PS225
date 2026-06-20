@@ -1,6 +1,6 @@
 # Linux on the Stingrays
 
-This is how I installed Arch Linux ARM to both the PS225 and PS1100R.
+This is how I installed Arch Linux ARM to both the PS225 and PS1100R. I created the config file by extracting `/proc/config.gz` from the stock system and manually editing 
 
 ## Root filesystem 
 
@@ -52,4 +52,4 @@ startup
 
 If you build a newer kernel later you must remember to copy the kernel image to the EFI partition and replace `Image.2`.
 
-After the kernel messages you should get an ALARM login prompt on the serial console. If it boots successfully the bootloader will remember your choice as default for the next boot.
+After the kernel messages you should get an ALARM login prompt on the serial console. If it boots successfully the bootloader will remember your choice as default for the next boot. The SFP28 ports on the PS225 should work without additional fuss thanks to the ``bnxt`` modules and you can use a network manager of your choice to configure them. The 100Gbps QSFP28 connector on the PS1100R is untested but should work.
