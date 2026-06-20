@@ -1,83 +1,75 @@
-# Broadcom Stingray Lab
+# Broadcom Stingray PS225 Lab
 
-Community notes and bring-up work for Broadcom Stingray / PS225 SmartNIC DPU cards.
+Community documentation and bring-up notes for Broadcom Stingray PS225 / BCM5880X SmartNIC / DPU cards.
 
-## Focus Hardware
+## Current Hardware Inventory
 
-- Broadcom Stingray PS225 SmartNIC
-- BCM5880X / BCM58802H SoC
-- PS225-H04 / PS225-H08 / PS225-H16 variants
-- Dual-port 25GbE SFP28 PCIe 3.0 x8 SmartNICs
+| Card | Assembly / Identifier | Model | Memory | Revision / Suffix | Build Date | Dev ID | Status |
+|---|---|---|---:|---|---|---|---|
+| Card 01 | BCM958802A8046C | PS225-H16 | 16 GB DDR4 | Rev 17 | 2020-03-05 | DEV0000 | Untested |
+| Card 02 | BCM958802A8046C | PS225-H16 | 16 GB DDR4 | Rev 15 | 2019-12-10 | DEV0000 | Untested |
+| Card 03 | BCM958802A8028E | PS225-H08 | 8 GB DDR4 | Rev/Suffix E | Unknown | Unknown | Untested |
+| Card 04 | BCM958802A8028C | PS225-H08 | 8 GB DDR4 | Rev/Suffix C | 2021-12-27 | DEV0023 | Untested |
 
-## Known PS225 Specs
+## Accessories
 
-- 8-core ARMv8 Cortex-A72 processor subsystem at 3.0 GHz
-- 4 GB, 8 GB, or 16 GB onboard DDR4 depending on card variant
-- Dual SFP28 ports supporting 10GbE/25GbE
+| Item | Identifier | Notes |
+|---|---|---|
+| Broadcom USB to 3.5 mm TRRS console cable | P/N 12233 / 0530 / 2201 | Official Broadcom console cable for the PS225 UART jack |
+
+## Known PS225 Platform Features
+
 - PCIe 3.0 x8 host interface
-- SR-IOV support up to 128 VFs
+- Dual SFP28 network ports, 10GbE / 25GbE capable
+- BCM5880X / BCM58802H Stingray SoC
+- 8-core ARMv8 Cortex-A72 processor subsystem at 3.0 GHz
+- 4 GB, 8 GB, or 16 GB DDR4 variants
 - 16 GB onboard eMMC
-- SPI flash / VPD EEPROM
+- 8 MB SPI flash
+- SR-IOV support up to 128 VFs
+- RoCE v1/v2 support
 - TruFlow configurable flow accelerator
 - Hardware crypto engine
-- RAID 5/6 engine
-- RoCE v1/v2
-- VXLAN, NVGRE, Geneve, GRE support
-- UART serial console via 3.5 mm connector on bracket
+- RAID 5/6 acceleration
+- UART console exposed through the 3.5 mm jack on the bracket
 
 ## Repository Layout
 
 ```text
-docs/
-  datasheets/
-  user-guides/
-  application-notes/
-  whitepapers/
-hardware/
-  uart/
-  board-photos/
-  component-identification/
-software/
-  drivers/
-  linux/
-firmware/
-logs/
-tools/
-reverse-engineering/
-homelab/
+hardware/              Card photos, labels, physical notes
+bootlogs/              UART boot captures per card
+firmware/              User-created firmware/image notes and hashes
+software/              Host drivers, commands, tool notes
+reverse-engineering/   eMMC layouts, SPI dumps, boot process notes
+scripts/               Helper scripts
+docs/                  Datasheets, user guides, app notes, whitepapers
 ```
 
-## Bring-up Checklist
+## Bring-up Plan
 
-1. Install one card in a Linux host.
-2. Capture PCI enumeration:
+1. Photograph and catalog all cards.
+2. Install one known H16 card in a Linux host.
+3. Connect the official USB-to-TRRS console cable.
+4. Capture full UART boot log.
+5. Capture host-side PCI information with `lspci -nn` and `lspci -vv`.
+6. If Linux boots on the ARM side, dump eMMC partition layout and NVRAM information before changing anything.
+7. Repeat for all four cards.
+8. Compare H08 vs H16 firmware, eMMC layout, NVRAM config, and boot logs.
+
+## Safe First Commands
 
 ```bash
 lspci -nn | grep -i broadcom
 lspci -nn | grep 14e4
-lspci -vvv -s <device>
+lspci -vv -s <pci-device>
 ```
 
-3. Capture kernel messages:
+Serial console starting point:
 
 ```bash
-dmesg | grep -i -E 'broadcom|bnxt|stingray|14e4'
+screen /dev/ttyUSB0 115200
+# or
+picocom -b 115200 /dev/ttyUSB0
 ```
 
-4. Connect serial console to the 3.5 mm UART port.
-5. Capture boot logs from each card.
-6. Identify card model and RAM size from rear label.
-7. Back up eMMC/NVRAM before modifying firmware or partitions.
-
-## Card Inventory Template
-
-| Card | Model | Board PN | RAM | Serial | MACs | PCI IDs | State |
-|------|-------|----------|-----|--------|------|---------|-------|
-| 1 | TBD | TBD | TBD | TBD | TBD | TBD | Untested |
-| 2 | TBD | TBD | TBD | TBD | TBD | TBD | Untested |
-| 3 | TBD | TBD | TBD | TBD | TBD | TBD | Untested |
-| 4 | TBD | TBD | TBD | TBD | TBD | TBD | Untested |
-
-## Notes
-
-Broadcom documents and firmware may be copyrighted or redistribution-restricted. Keep licensing in mind before publishing proprietary files publicly.
+Do not flash firmware until the original state of each card has been captured.
