@@ -1,15 +1,15 @@
-== Linux on the Stingrays ==
+# Linux on the Stingrays
 
 This is how I installed Arch Linux ARM to both the PS225 and PS1100R.
 
-=== Root filesystem ===
+## Root filesystem 
 
 Create an ext4 filesystem on /dev/mmcblk0p5 (create the partition with fdisk if it doesn't exist yet), mount it, and extract an ALARM aarch64 generic rootfs tarball there:  
 ```
 bsdtar -xpf ArchLinuxARM-aarch64-latest.tar.gz -C /mnt/alarm
 ```
 
-=== Kernel ===
+## Kernel 
 
 The `config` file can be applied to Arch Linux ARM's `linux-aarch64` package to build an up-to-date kernel image and modules. A dtb for the PS225, newer than the preinstalled one, builds at `arch/arm64/boot/dts/broadcom/stingray/bcm958802a802x.dtb`.
 
@@ -31,13 +31,13 @@ makepkg
 
 From the stock Yocto environment, chroot into the rootfs, do `mount -t proc proc /proc`, and install the kernel and header packages that makepkg made with `pacman -U`.
 
-On the PS225 I had to make blacklist this module to keep dbus from hanging the system: 
+On the PS225 I had to make blacklist this module to keep dbus from hanging the system:  
 `/etc/modprobe.d/no-bcm_sba_raid.conf`
 ```
 blacklist bcm_sba_raid
 ```
 
-=== Bootloader ===
+## Bootloader 
 
 Mount the EFI partition (`/dev/mmcblk0p1`) and copy the kernel image and dtb (if needed):
 ```
