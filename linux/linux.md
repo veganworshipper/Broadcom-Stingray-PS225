@@ -29,17 +29,15 @@ updpkgsums
 makepkg
 ```
 
-From the stock Yocto environment, chroot into the rootfs, do `mount -t proc proc /proc`, and install the kernel and header packages that makepkg made with `pacman -U`.
+From the stock Yocto environment, copy the kernel and header packages that makepkg made into the rootfs, chroot, do `mount -t proc proc /proc`, and install the packages with `pacman -U`.
 
 On the PS225 I had to make blacklist this module to keep dbus from hanging the system:  
-`/etc/modprobe.d/no-bcm_sba_raid.conf`
-```
-blacklist bcm_sba_raid
-```
+`/etc/modprobe.d/no-bcm_sba_raid.conf`  
+`blacklist bcm_sba_raid`
 
 ## Bootloader 
 
-Mount the EFI partition (`/dev/mmcblk0p1`) and copy the kernel image and dtb (if needed):
+Mount the EFI partition (/dev/mmcblk0p1) and copy the kernel image and dtb (if needed):
 ```
 cp /boot/Image /mnt/efi/Image.2
 cp /boot/dtbs/broadcom/stingray/bcm958802a802x.dtb /mnt/efi/dt-blob.bin.2
@@ -51,5 +49,7 @@ select dtb 2
 select rootfs-ordinal 5`
 startup
 ```
+
+If you build a newer kernel later you must remember to copy the kernel image to the EFI partition and replace `Image.2`.
 
 After the kernel messages you should get an ALARM login prompt on the serial console.
