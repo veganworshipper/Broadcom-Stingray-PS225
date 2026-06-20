@@ -30,7 +30,7 @@ makepkg
 
 From the stock Yocto environment, copy the kernel and header packages that makepkg made into the rootfs, chroot, do `mount -t proc proc /proc`, and install the packages with `pacman -U`.
 
-On the PS225 I had to blacklist this module to keep dbus from hanging the system:  
+On the PS225 I had to blacklist this module to keep udev from hanging the system:  
 `/etc/modprobe.d/no-bcm_sba_raid.conf`  
 `blacklist bcm_sba_raid`
 
